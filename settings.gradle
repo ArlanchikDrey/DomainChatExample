@@ -1,0 +1,6 @@
+include ':entities'
+include ':flow'
+include ':rxjava'
+include ':simple_coroutines'
+include ':app'
+rootProject.name = "Example"
