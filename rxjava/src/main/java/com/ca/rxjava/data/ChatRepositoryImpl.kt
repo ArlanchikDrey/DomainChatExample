@@ -1,4 +1,6 @@
 package com.ca.rxjava.data
+import com.ca.data_store.types.chat.ChatDataStoreFactory
+import com.ca.data_store.types.chat.DataStore
 import com.ca.entities.ChatName
 import com.ca.entities.Message
 import com.ca.rxjava.domain.models.Result
@@ -9,16 +11,15 @@ import io.reactivex.rxjava3.internal.operators.single.SingleCreate
 import io.reactivex.rxjava3.schedulers.Schedulers
 
 class ChatRepositoryImpl: IChatRepository {
-    override fun getMessages(): Single<Result<List<Message>>> {
-        val messages = mutableListOf<Message>()
 
-        messages.add(Message(date = "20.02.21", text = "Hello",
-            chatName = ChatName(name = "Andrey").chatName))
-        messages.add(Message(date = "25.03.21", text = "Bye",
-            chatName = ChatName(name = "Dima").chatName))
+    private val chatDataStoreFactory: ChatDataStoreFactory by lazy { ChatDataStoreFactory() }
+
+
+    override fun getMessages(): Single<Result<List<Message>>> {
+        val chatDataStore = chatDataStoreFactory.create(DataStore.CACHE)
 
         return SingleCreate<Result<List<Message>>>{
-            emitter -> emitter.onSuccess(Success(data = messages))
+            emitter -> emitter.onSuccess(Success(data = chatDataStore.getMessages()))
         }.subscribeOn(Schedulers.io())
     }
 }
