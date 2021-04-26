@@ -23,6 +23,7 @@ class CacheChatDataStore: ChatDataStore {
     private val cache: Cache by lazy { Cache() }
 
     override fun getMessages(): List<Message> {
+        super.getMessages()
         return cache.getMessagesFromCache()
     }
 }

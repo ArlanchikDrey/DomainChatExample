@@ -6,6 +6,7 @@ class ServerChatDataStore: ChatDataStore {
     override fun getMessages(): List<Message> {
         //Request to network and get response
         //Mapping before return
+        super.getMessages()
         return listOf()
     }
 }
